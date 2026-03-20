@@ -1,0 +1,113 @@
+@import "tailwindcss";
+
+:root {
+  --color-bg: #050505;
+  --color-card: #0a0a0a;
+  --color-text: #ffffff;
+  --color-text-muted: #a3a3a3;
+  --color-border: rgba(255, 255, 255, 0.1);
+  --color-glass-bg: rgba(255, 255, 255, 0.05);
+  --color-card-hover: rgba(255, 255, 255, 0.02);
+}
+
+.light {
+  --color-bg: #f8fafc;
+  --color-card: #ffffff;
+  --color-text: #0f172a;
+  --color-text-muted: #64748b;
+  --color-border: rgba(0, 0, 0, 0.08);
+  --color-glass-bg: rgba(0, 0, 0, 0.03);
+  --color-card-hover: rgba(0, 0, 0, 0.01);
+}
+
+@theme {
+  --color-bg-theme: var(--color-bg);
+  --color-card-theme: var(--color-card);
+  --color-text-theme: var(--color-text);
+  --color-muted-theme: var(--color-text-muted);
+  --color-border-theme: var(--color-border);
+  --color-bg-muted-theme: var(--color-glass-bg);
+  --color-glass-bg-theme: var(--color-glass-bg);
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+}
+
+@layer base {
+  body {
+    @apply bg-bg-theme text-text-theme font-sans overflow-x-hidden transition-colors duration-300;
+  }
+}
+
+@layer components {
+  .card {
+    @apply bg-card-theme border border-border-theme rounded-3xl p-6 shadow-xl transition-all;
+  }
+  
+  .glass {
+    @apply bg-[var(--color-glass-bg)] backdrop-blur-xl border border-border-theme;
+  }
+
+  .btn-primary {
+    @apply px-6 py-3 bg-emerald-500 hover:bg-emerald-600 text-white rounded-full font-bold transition-all shadow-lg shadow-emerald-500/20 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed;
+  }
+  
+  .btn-secondary {
+    @apply px-6 py-3 bg-[var(--color-glass-bg)] hover:bg-border-theme text-text-theme rounded-full font-bold border border-border-theme transition-all active:scale-95 disabled:opacity-50;
+  }
+
+  .btn-glass {
+    @apply px-6 py-3 bg-emerald-500/10 backdrop-blur-xl hover:bg-emerald-500/20 text-emerald-500 rounded-full font-bold border border-emerald-500/20 transition-all active:scale-95 shadow-lg shadow-emerald-500/5;
+  }
+
+  .text-muted {
+    @apply text-muted-theme;
+  }
+
+  .border-theme {
+    @apply border-border-theme;
+  }
+
+  .bg-glass {
+    @apply bg-[var(--color-glass-bg)];
+  }
+
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  pre {
+    @apply overflow-x-auto max-w-full bg-black/30 p-4 rounded-xl my-4;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  
+  pre::-webkit-scrollbar {
+    display: none;
+  }
+
+  code {
+    @apply break-words whitespace-pre-wrap;
+  }
+}
+
+/* Markdown styling */
+.prose-invert {
+  --tw-prose-body: var(--color-text-muted);
+  --tw-prose-headings: var(--color-text);
+  --tw-prose-links: #10b981;
+  --tw-prose-bold: var(--color-text);
+  --tw-prose-counters: var(--color-text-muted);
+  --tw-prose-bullets: #10b981;
+  --tw-prose-hr: var(--color-border);
+  --tw-prose-quotes: var(--color-text);
+  --tw-prose-quote-borders: #10b981;
+  --tw-prose-captions: var(--color-text-muted);
+  --tw-prose-code: var(--color-text);
+  --tw-prose-pre-code: var(--color-text-muted);
+  --tw-prose-pre-bg: var(--color-card);
+  --tw-prose-th-borders: var(--color-border);
+  --tw-prose-td-borders: var(--color-border);
+}

@@ -1,0 +1,183 @@
+{
+  "entities": {
+    "UserProfile": {
+      "title": "User Profile",
+      "description": "Stores user career profile and growth statistics.",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string" },
+        "displayName": { "type": "string" },
+        "email": { "type": "string" },
+        "photoURL": { "type": "string" },
+        "careerProfile": { "type": "object", "description": "AI generated career analysis results" },
+        "careerAnalysis": { "type": "object" },
+        "currentRole": { "type": "string" },
+        "streak": { "type": "integer" },
+        "lastActive": { "type": "string", "format": "date-time" },
+        "growthStage": { "type": "string", "enum": ["Seed", "Growth", "Bloom"] }
+      },
+      "required": ["uid", "email"]
+    },
+    "Roadmap": {
+      "title": "Career Roadmap",
+      "description": "A 6-month personalized career roadmap.",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string" },
+        "title": { "type": "string" },
+        "description": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "months": { "type": "array", "items": { "type": "object" } }
+      },
+      "required": ["uid", "months"]
+    },
+    "Task": {
+      "title": "Task",
+      "description": "A specific task within the roadmap.",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string" },
+        "roadmapId": { "type": "string" },
+        "title": { "type": "string" },
+        "description": { "type": "string" },
+        "status": { "type": "string", "enum": ["pending", "completed"] },
+        "dueDate": { "type": "string", "format": "date" },
+        "monthIndex": { "type": "integer" },
+        "weekIndex": { "type": "integer" }
+      },
+      "required": ["uid", "title", "status"]
+    },
+    "ChatMessage": {
+      "title": "Chat Message",
+      "description": "A message in the AI mentor chat history.",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string" },
+        "role": { "type": "string", "enum": ["user", "assistant"] },
+        "content": { "type": "string" },
+        "timestamp": { "type": "string", "format": "date-time" }
+      },
+      "required": ["uid", "role", "content", "timestamp"]
+    },
+    "WellnessLog": {
+      "title": "Wellness Log",
+      "description": "Daily tracking of study, focus, and rest with AI summary.",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string" },
+        "date": { "type": "string", "format": "date" },
+        "studyTime": { "type": "number", "description": "Hours spent studying" },
+        "focus": { "type": "integer", "description": "Focus level 1-10" },
+        "rest": { "type": "integer", "description": "Rest quality 1-10" },
+        "breaks": { "type": "integer", "description": "Number of breaks taken" },
+        "summary": { "type": "string", "description": "AI generated summary of the day" }
+      },
+      "required": ["uid", "date"]
+    },
+    "DailyQuizResponse": {
+      "title": "Daily Quiz Response",
+      "description": "User's daily check-in responses about study habits.",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string" },
+        "date": { "type": "string", "format": "date" },
+        "studyHours": { "type": "number" },
+        "topic": { "type": "string" },
+        "difficulty": { "type": "integer" },
+        "focus": { "type": "integer" },
+        "timestamp": { "type": "string", "format": "date-time" }
+      },
+      "required": ["uid", "date", "studyHours", "topic", "difficulty", "focus"]
+    },
+    "DailyTask": {
+      "title": "Daily Task",
+      "description": "AI-generated or roadmap-synced daily tasks.",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string" },
+        "date": { "type": "string", "format": "date" },
+        "title": { "type": "string" },
+        "description": { "type": "string" },
+        "status": { "type": "string", "enum": ["pending", "completed"] },
+        "type": { "type": "string", "enum": ["ai-generated", "roadmap-sync"] }
+      },
+      "required": ["uid", "date", "title", "status", "type"]
+    },
+    "KnowledgeQuiz": {
+      "title": "Knowledge Quiz",
+      "description": "AI-generated daily quiz based on roadmap and goals.",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string" },
+        "date": { "type": "string", "format": "date" },
+        "topic": { "type": "string" },
+        "difficulty": { "type": "string" },
+        "questions": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "question": { "type": "string" },
+              "options": { "type": "array", "items": { "type": "string" } },
+              "correctAnswer": { "type": "integer" },
+              "explanation": { "type": "string" }
+            }
+          }
+        }
+      },
+      "required": ["uid", "date", "questions"]
+    },
+    "KnowledgeQuizAttempt": {
+      "title": "Knowledge Quiz Attempt",
+      "description": "User's attempt at a knowledge quiz.",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string" },
+        "quizId": { "type": "string" },
+        "score": { "type": "integer" },
+        "totalQuestions": { "type": "integer" },
+        "answers": { "type": "array", "items": { "type": "integer" } },
+        "timestamp": { "type": "string", "format": "date-time" }
+      },
+      "required": ["uid", "quizId", "score", "totalQuestions", "timestamp"]
+    }
+  },
+  "firestore": {
+    "/users/{uid}": {
+      "schema": "UserProfile",
+      "description": "User profile document."
+    },
+    "/roadmaps/{roadmapId}": {
+      "schema": "Roadmap",
+      "description": "Roadmap document."
+    },
+    "/tasks/{taskId}": {
+      "schema": "Task",
+      "description": "Task document."
+    },
+    "/chats/{chatId}": {
+      "schema": "ChatMessage",
+      "description": "Chat message document."
+    },
+    "/wellness/{logId}": {
+      "schema": "WellnessLog",
+      "description": "Wellness log document."
+    },
+    "/dailyQuizzes/{quizId}": {
+      "schema": "DailyQuizResponse",
+      "description": "Daily quiz response document."
+    },
+    "/dailyTasks/{taskId}": {
+      "schema": "DailyTask",
+      "description": "Daily task document."
+    },
+    "/knowledgeQuizzes/{quizId}": {
+      "schema": "KnowledgeQuiz",
+      "description": "Knowledge quiz document."
+    },
+    "/knowledgeQuizAttempts/{attemptId}": {
+      "schema": "KnowledgeQuizAttempt",
+      "description": "Knowledge quiz attempt document."
+    }
+  }
+}
